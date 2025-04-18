@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #0905f2; /* New deep blue-purple background */
-    color: #333;
+    color: #ffffff;
 }
 
 .container {
@@ -78,7 +78,7 @@ body {
     border-radius: 4px;
     width: 200px;
     background-color: #f9f9f9; /* Slight gray for inputs */
-    color: #333;
+    color: #ffffff;
 }
 
 .form-container button {
@@ -103,7 +103,7 @@ th, td {
 }
 
 th {
-    background-color: #3498db; /* Blue header */
+    background-color: #0905f2; /* Blue header */
     color: white;
     font-weight: bold;
 }
@@ -131,12 +131,12 @@ tr:hover {
 }
 
 .btn-return {
-    background-color: #2196F3;
+    background-color: #0905f2;
     color: white;
 }
 
 .btn-return:hover {
-    background-color: #1976D2;
+    background-color: #0905f2;
 }
 
 .btn-delete {
@@ -181,7 +181,7 @@ tr:hover {
 .stat-card p {
     margin: 5px 0 0;
     font-size: 1.5em;
-    color: #3498db; /* Blue numbers */
+    color: #0905f2; /* Blue numbers */
 }
 
 /* Popup Styles */
@@ -198,7 +198,7 @@ tr:hover {
     z-index: 1000;
     width: 300px;
     text-align: center;
-    color: #333;
+    color: #ffff;
 }
 
 #return-popup p {
