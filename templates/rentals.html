@@ -1,4 +1,3 @@
-# templates/rentals.html
 {% extends 'base.html' %}
 {% block content %}
     <h2>Rental History</h2>
@@ -25,6 +24,8 @@
             <th>Item</th>
             <th>Customer</th>
             <th>Rental Date</th>
+            <th>Status</th>
+            <th>Action</th>
         </tr>
         {% for rental in rentals %}
         <tr>
@@ -32,6 +33,16 @@
             <td>{{ rental[1] }}</td>
             <td>{{ rental[2] }}</td>
             <td>{{ rental[3] }}</td>
+            <td>{{ 'Active' if rental[4] == 0 else 'Returned' }}</td>
+            <td>
+                {% if rental[4] == 0 %}
+                <form method="POST" action="{{ url_for('return_rental', id=rental[0]) }}">
+                    <button type="submit" class="btn btn-return">Return</button>
+                </form>
+                {% else %}
+                -
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>
