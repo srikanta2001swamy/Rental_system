@@ -24,9 +24,9 @@ A web-based application to manage rentals efficiently, built with Flask and SQLi
    cd Rental_system
 2. **Install Dependencies**:
 
-```bash
+   ```bash
    pip install -r requirements.txt
 3. **Run the Application**:
 
-```bash
+   ```bash
    python app.py
