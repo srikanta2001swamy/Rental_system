@@ -30,3 +30,11 @@ A web-based application to manage rentals efficiently, built with Flask and SQLi
 
    ```bash
    python app.py
+   
+Sample outputs
+<img width="1728" alt="Screenshot 2025-04-18 at 3 29 40 PM" src="https://github.com/user-attachments/assets/1900b420-1ec1-4650-8098-3a75d98bd064" />
+<img width="1728" alt="Screenshot 2025-04-18 at 3 29 48 PM" src="https://github.com/user-attachments/assets/c2618302-b8a5-4637-aca9-7aa5a6aade84" />
+<img width="1728" alt="Screenshot 2025-04-18 at 3 29 55 PM" src="https://github.com/user-attachments/assets/a89d1fbd-fcf8-4849-a3bc-8350397cd745" />
+<img width="1728" alt="Screenshot 2025-04-18 at 3 30 03 PM" src="https://github.com/user-attachments/assets/b19e0653-7729-4f2a-a22b-61f97e118fd4" />
+
+
