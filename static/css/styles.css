@@ -3,7 +3,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #2930b9; /* Deep blue background */
+    background-color: #0905f2; /* New deep blue-purple background */
     color: #333;
 }
 
@@ -18,7 +18,7 @@ body {
     text-align: center;
     padding: 20px 0;
     background-color: #ffffff; /* White background */
-    color: #2980b9; /* Blue text to match background */
+    color: #0905f2; /* Text matches background for contrast */
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -48,7 +48,7 @@ body {
 
 .nav a {
     text-decoration: none;
-    color: #2980b9; /* Blue text */
+    color: #0905f2; /* Blue-purple text */
     padding: 10px 20px;
     transition: background-color 0.3s;
 }
@@ -175,7 +175,7 @@ tr:hover {
 
 .stat-card h3 {
     margin: 0;
-    color: #2980b9; /* Blue text */
+    color: #0905f2; /* Blue-purple text */
 }
 
 .stat-card p {
