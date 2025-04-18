@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>Welcome to the Rental Management System. Select an option from the navigation above.</p>
+    <h2>Welcome to the Rental Management System</h2>
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Inventory</h3>
+            <p>{{ total_inventory }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Customers</h3>
+            <p>{{ total_customers }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Active Rentals</h3>
+            <p>{{ total_active_rentals }}</p>
+        </div>
+    </div>
+    <p>Select an option from the navigation above to manage inventory, customers, or rentals.</p>
 {% endblock %}
-
