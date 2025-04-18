@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import sqlite3
 from datetime import datetime, date
 import os
@@ -15,10 +15,16 @@ def init_db():
                     (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, phone_no TEXT)''')
         c.execute('''CREATE TABLE IF NOT EXISTS rentals 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT, item_id INTEGER, customer_id INTEGER, 
-                     rental_date TEXT, expected_return_date TEXT, advance_paid REAL, returned INTEGER DEFAULT 0, 
-                     return_date TEXT, 
+                     rental_date TEXT, expected_return_date TEXT, advance_paid REAL, total_paid REAL, 
+                     returned INTEGER DEFAULT 0, return_date TEXT, 
                      FOREIGN KEY(item_id) REFERENCES inventory(id), 
                      FOREIGN KEY(customer_id) REFERENCES customers(id))''')
+        # Initialize total_paid for existing records
+        c.execute("PRAGMA table_info(rentals)")
+        columns = [col[1] for col in c.fetchall()]
+        if 'total_paid' not in columns:
+            c.execute("ALTER TABLE rentals ADD COLUMN total_paid REAL")
+            c.execute("UPDATE rentals SET total_paid = advance_paid WHERE total_paid IS NULL")
         conn.commit()
 
 def calculate_rental_amount(rental_date, end_date, rent_per_day):
@@ -130,16 +136,16 @@ def rentals():
         item_id = request.form['item_id']
         customer_id = request.form['customer_id']
         expected_return_date = request.form['expected_return_date']
-        advance_paid = request.form['advance_paid']
+        advance_paid = float(request.form['advance_paid'])
         rental_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         c.execute('''INSERT INTO rentals (item_id, customer_id, rental_date, expected_return_date, 
-                    advance_paid, returned) VALUES (?, ?, ?, ?, ?, 0)''', 
-                 (item_id, customer_id, rental_date, expected_return_date, advance_paid))
+                    advance_paid, total_paid, returned) VALUES (?, ?, ?, ?, ?, ?, 0)''', 
+                 (item_id, customer_id, rental_date, expected_return_date, advance_paid, advance_paid))
         c.execute("UPDATE inventory SET quantity = quantity - 1 WHERE id = ?", (item_id,))
         conn.commit()
     
     c.execute('''SELECT r.id, i.name, c.name, r.rental_date, r.expected_return_date, 
-                r.advance_paid, r.returned, r.return_date, i.rent_per_day 
+                r.advance_paid, r.returned, r.return_date, i.rent_per_day, r.total_paid 
                 FROM rentals r 
                 JOIN inventory i ON r.item_id = i.id 
                 JOIN customers c ON r.customer_id = c.id''')
@@ -151,7 +157,7 @@ def rentals():
             rental[7] if rental[6] == 1 else rental[4], 
             rental[8]
         )
-        balance = total_amount - float(rental[5])
+        balance = total_amount - float(rental[9])  # Use total_paid
         rentals_with_calculations.append(rental + (total_amount, balance))
     
     c.execute("SELECT id, name FROM inventory WHERE quantity > 0")
@@ -167,8 +173,28 @@ def return_rental(id):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     
+    # Fetch rental details
+    c.execute('''SELECT r.rental_date, r.return_date, r.total_paid, r.advance_paid, i.rent_per_day 
+                FROM rentals r JOIN inventory i ON r.item_id = i.id WHERE r.id = ?''', (id,))
+    rental = c.fetchone()
+    if not rental:
+        conn.close()
+        return redirect(url_for('rentals'))
+    
     return_date = datetime.now().strftime('%Y-%m-%d')
-    c.execute("UPDATE rentals SET returned = 1, return_date = ? WHERE id = ?", (return_date, id))
+    total_rent = calculate_rental_amount(rental[0], return_date, rental[4])
+    balance = total_rent - float(rental[2])  # total_paid
+    
+    # Check if balance is paid
+    mark_as_paid = request.form.get('mark_as_paid', 'false') == 'true'
+    if mark_as_paid and balance > 0:
+        new_total_paid = total_rent
+    else:
+        new_total_paid = rental[2]  # Keep existing total_paid
+    
+    # Update rental and inventory
+    c.execute('''UPDATE rentals SET returned = 1, return_date = ?, total_paid = ? WHERE id = ?''', 
+              (return_date, new_total_paid, id))
     c.execute('''UPDATE inventory SET quantity = quantity + 1 
                 WHERE id = (SELECT item_id FROM rentals WHERE id = ?)''', (id,))
     conn.commit()
@@ -179,4 +205,3 @@ def return_rental(id):
 if __name__ == '__main__':
     init_db()
     app.run(host='0.0.0.0', port=5000)
-
