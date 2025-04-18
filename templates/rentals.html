@@ -1,0 +1,38 @@
+# templates/rentals.html
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Rental History</h2>
+    <div class="form-container">
+        <form method="POST">
+            <select name="item_id" required>
+                <option value="">Select Item</option>
+                {% for item in items %}
+                <option value="{{ item[0] }}">{{ item[1] }}</option>
+                {% endfor %}
+            </select>
+            <select name="customer_id" required>
+                <option value="">Select Customer</option>
+                {% for customer in customers %}
+                <option value="{{ customer[0] }}">{{ customer[1] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">Create Rental</button>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Customer</th>
+            <th>Rental Date</th>
+        </tr>
+        {% for rental in rentals %}
+        <tr>
+            <td>{{ rental[0] }}</td>
+            <td>{{ rental[1] }}</td>
+            <td>{{ rental[2] }}</td>
+            <td>{{ rental[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
