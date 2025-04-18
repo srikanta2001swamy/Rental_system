@@ -71,9 +71,9 @@
     <div id="return-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
                                   background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 1000;">
         <h3>Confirm Return</h3>
-        <p>Total Rent: $<span id="popup-total-rent"></span></p>
-        <p>Total Paid: $<span id="popup-total-paid"></span></p>
-        <p>Balance Due: $<span id="popup-balance"></span></p>
+        <p>Total Rent: <span id="popup-total-rent"></span></p>
+        <p>Total Paid: <span id="popup-total-paid"></span></p>
+        <p>Balance Due: <span id="popup-balance"></span></p>
         <form id="popup-form" method="POST">
             <input type="hidden" name="mark_as_paid" id="popup-mark-as-paid" value="false">
             <label><input type="checkbox" id="mark-paid-checkbox" onchange="document.getElementById('popup-mark-as-paid').value = this.checked ? 'true' : 'false'"> Mark Balance as Paid</label>
