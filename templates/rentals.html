@@ -27,7 +27,7 @@
             <th>Customer</th>
             <th>Rental Date</th>
             <th>Expected Return</th>
-            <th>Advance Paid</th>
+            <th>Total Paid</th>
             <th>Total Amount</th>
             <th>Balance</th>
             <th>Status</th>
@@ -40,9 +40,9 @@
             <td>{{ rental[2] }}</td>
             <td>{{ rental[3] }}</td>
             <td>{{ rental[4] }}</td>
-            <td>{{ rental[5] }}</td>
             <td>{{ rental[9] | round(2) }}</td>
             <td>{{ rental[10] | round(2) }}</td>
+            <td>{{ rental[11] | round(2) }}</td>
             <td>
                 {% if rental[6] == 0 %}
                     Active
@@ -52,8 +52,12 @@
             </td>
             <td>
                 {% if rental[6] == 0 %}
-                <form method="POST" action="{{ url_for('return_rental', id=rental[0]) }}">
-                    <button type="submit" class="btn btn-return">Return</button>
+                <form method="POST" action="{{ url_for('return_rental', id=rental[0]) }}" class="return-form">
+                    <input type="hidden" name="mark_as_paid" value="false">
+                    <button type="button" class="btn btn-return" 
+                            onclick="showReturnPopup({{ rental[0] }}, {{ rental[10] | round(2) }}, {{ rental[9] | round(2) }}, {{ rental[11] | round(2) }})">
+                        Return
+                    </button>
                 </form>
                 {% else %}
                 -
@@ -62,4 +66,36 @@
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Popup for balance payment -->
+    <div id="return-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                                  background: white; padding: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 1000;">
+        <h3>Confirm Return</h3>
+        <p>Total Rent: $<span id="popup-total-rent"></span></p>
+        <p>Total Paid: $<span id="popup-total-paid"></span></p>
+        <p>Balance Due: $<span id="popup-balance"></span></p>
+        <form id="popup-form" method="POST">
+            <input type="hidden" name="mark_as_paid" id="popup-mark-as-paid" value="false">
+            <label><input type="checkbox" id="mark-paid-checkbox" onchange="document.getElementById('popup-mark-as-paid').value = this.checked ? 'true' : 'false'"> Mark Balance as Paid</label>
+            <br><br>
+            <button type="submit" class="btn btn-return">Confirm Return</button>
+            <button type="button" class="btn btn-delete" onclick="document.getElementById('return-popup').style.display = 'none'">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function showReturnPopup(rentalId, totalRent, totalPaid, balance) {
+            if (balance > 0) {
+                // Show popup with balance details
+                document.getElementById('popup-total-rent').textContent = totalRent.toFixed(2);
+                document.getElementById('popup-total-paid').textContent = totalPaid.toFixed(2);
+                document.getElementById('popup-balance').textContent = balance.toFixed(2);
+                document.getElementById('popup-form').action = '/rentals/return/' + rentalId;
+                document.getElementById('return-popup').style.display = 'block';
+            } else {
+                // No balance, submit form directly
+                document.querySelector(`form[action='/rentals/return/${rentalId}']`).submit();
+            }
+        }
+    </script>
 {% endblock %}
