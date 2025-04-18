@@ -5,6 +5,7 @@
         <form method="POST">
             <input type="text" name="name" placeholder="Customer Name" required>
             <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone_no" placeholder="Phone Number" required>
             <button type="submit" class="btn">Add Customer</button>
         </form>
     </div>
@@ -13,6 +14,8 @@
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone Number</th>
+            <th>Active Rentals</th>
             <th>Action</th>
         </tr>
         {% for customer in customers %}
@@ -20,9 +23,12 @@
             <td>{{ customer[0] }}</td>
             <td>{{ customer[1] }}</td>
             <td>{{ customer[2] }}</td>
+            <td>{{ customer[3] }}</td>
+            <td>{{ customer[4] }}</td>
             <td>
                 <form method="POST" action="{{ url_for('delete_customer', id=customer[0]) }}">
-                    <button type="submit" class="btn btn-delete">Delete</button>
+                    <button type="submit" class="btn btn-delete" 
+                            {% if customer[4] > 0 %}disabled{% endif %}>Delete</button>
                 </form>
             </td>
         </tr>
