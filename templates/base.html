@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +18,12 @@
         .btn { padding: 8px 16px; background-color: #4CAF50; color: white; 
                text-decoration: none; border: none; cursor: pointer; }
         .btn:hover { background-color: #45a049; }
+        .btn-delete { background-color: #f44336; }
+        .btn-delete:hover { background-color: #da190b; }
+        .btn-return { background-color: #2196F3; }
+        .btn-return:hover { background-color: #1976D2; }
+        .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+        .stat-card { padding: 20px; background-color: #f9f9f9; border-radius: 5px; text-align: center; }
     </style>
 </head>
 <body>
@@ -32,7 +37,6 @@
             <a href="{{ url_for('inventory') }}">Inventory</a>
             <a href="{{ url_for('customers') }}">Customers</a>
             <a href="{{ url_for('rentals') }}">Rentals</a>
- 
         </div>
         {% block content %}{% endblock %}
     </div>
