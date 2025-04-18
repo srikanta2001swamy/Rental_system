@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
 def init_db():
-    with sqlite3.connect('rental.db') as conn:
+    db_path = os.getenv('DATABASE_PATH', 'rental.db')
+    with sqlite3.connect(db_path) as conn:
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS inventory 
                     (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, quantity INTEGER)''')
@@ -23,7 +25,8 @@ def index():
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
-    conn = sqlite3.connect('rental.db')
+    db_path = os.getenv('DATABASE_PATH', 'rental.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     
     if request.method == 'POST':
@@ -39,7 +42,8 @@ def inventory():
 
 @app.route('/customers', methods=['GET', 'POST'])
 def customers():
-    conn = sqlite3.connect('rental.db')
+    db_path = os.getenv('DATABASE_PATH', 'rental.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     
     if request.method == 'POST':
@@ -55,7 +59,8 @@ def customers():
 
 @app.route('/rentals', methods=['GET', 'POST'])
 def rentals():
-    conn = sqlite3.connect('rental.db')
+    db_path = os.getenv('DATABASE_PATH', 'rental.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     
     if request.method == 'POST':
@@ -78,6 +83,7 @@ def rentals():
     customers = c.fetchall()
     conn.close()
     return render_template('rentals.html', rentals=rentals, items=items, customers=customers)
+
 if __name__ == '__main__':
     init_db()
     app.run(host='0.0.0.0', port=5000)
