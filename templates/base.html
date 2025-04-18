@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Management System</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .nav { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .nav a { text-decoration: none; color: #333; padding: 10px; }
+        .nav a:hover { background-color: #f0f0f0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .form-container { margin: 20px 0; }
+        .btn { padding: 8px 16px; background-color: #4CAF50; color: white; 
+               text-decoration: none; border: none; cursor: pointer; }
+        .btn:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rental Management System</h1>
+            <h3>Manage Your Rentals Efficiently</h3>
+        </div>
+        <div class="nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('inventory') }}">Inventory</a>
+            <a href="{{ url_for('customers') }}">Customers</a>
+            <a href="{{ url_for('rentals') }}">Rentals</a>
+ 
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
