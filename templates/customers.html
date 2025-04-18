@@ -1,0 +1,26 @@
+# templates/customers.html
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Customers</h2>
+    <div class="form-container">
+        <form method="POST">
+            <input type="text" name="name" placeholder="Customer Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <button type="submit" class="btn">Add Customer</button>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer[0] }}</td>
+            <td>{{ customer[1] }}</td>
+            <td>{{ customer[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
