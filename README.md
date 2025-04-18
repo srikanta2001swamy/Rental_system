@@ -5,7 +5,7 @@ A web-based application to manage rentals efficiently, built with Flask and SQLi
 ## Overview
 
 - **Features**:
-- Add and manage inventory items, register customers, create and return rentals, and view rental history with real-time calculations.
+  Add and manage inventory items, register customers, create and return rentals, and view rental history with real-time calculations.
 
 ## Prerequisites
 
